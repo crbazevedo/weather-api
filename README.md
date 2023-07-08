@@ -1,4 +1,3 @@
-
 # Weather API
 
 This repository contains the code for a FastAPI application that generates weather reports for cities around the world. The application uses data from the OpenWeatherMap API and the OpenAI GPT-4 model to generate the reports.
