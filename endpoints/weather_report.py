@@ -4,7 +4,7 @@ from services.openai import generate_weather_report
 
 router = APIRouter()
 
-@router.get('/weather/{city}')
+@router.get('/weather_report/{city}')
 async def weather_report(city: str):
     try:
         weather_data = await get_weather_data(city)
