@@ -8,7 +8,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-async def get_weather(city: str):
+async def get_weather_data(city: str):
     api_key = os.getenv("OPENWEATHERMAP_API_KEY")
     url = "http://api.openweathermap.org/data/2.5/weather"
     params = {
