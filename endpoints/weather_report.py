@@ -8,7 +8,7 @@ router = APIRouter()
 async def weather_report(city: str):
     try:
         weather_data = await get_weather_data(city)
-        report = generate_weather_report(city, weather_data)
+        report = await generate_weather_report(city, weather_data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     return {'report': report}
