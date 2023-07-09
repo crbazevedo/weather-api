@@ -1,11 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 import os
 import httpx
+import logging
 
 load_dotenv() # load environment variables from .env file
 
 app = FastAPI()
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @app.get("/")
 def read_root():
@@ -16,7 +20,13 @@ async def read_weather(city: str):
     api_key = os.getenv("OPENWEATHERMAP_API_KEY")
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
     async with httpx.AsyncClient() as client:
-        resp = await client.get(url)
+        try:
+            resp = await client.get(url)
+            resp.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            logger.error(f"Error fetching weather: {exc}")
+            raise HTTPException(status_code=exc.response.status_code, detail=exc.response.text)
+
         return resp.json()
     
     
@@ -51,7 +61,12 @@ async def read_weather_report(city: str):
     }
 
     async with httpx.AsyncClient() as client:
-        resp = await client.post(gpt4_url, headers=headers, json=data, timeout=30.0)
+        try:
+            resp = await client.post(gpt4_url, headers=headers, json=data, timeout=30.0)
+            resp.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            logger.error(f"Error fetching OpenAI completion: {exc}")
+            raise HTTPException(status_code=exc.response.status_code, detail=exc.response.text)
         gpt4_data = resp.json()
         report = gpt4_data["choices"][0]["message"]["content"]
         return {"report": report}
