@@ -30,7 +30,7 @@ async def read_weather_report(city: str):
     gpt4_api_key = os.getenv("OPENAI_API_KEY")
     gpt4_url = "https://api.openai.com/v1/chat/completions"
 
-    prompt = f"""Write a short Weather Report for {city} in the style of a local news reporter based on the following data: {weather_data}. Use the language spoken in that city for the report. Add inside jokes about the city and make it sound like a real weather report. Write in the style of a local news reporter who is from {city}."""
+    prompt = f"""Write a short Weather Report for {city} in the style of a local news reporter based on the following data: {weather_data}. Use the language spoken in that city for the report. Add inside jokes about the city and make it sound like a real weather report. Use regional terms and local idioms when applicable. Write in the style of a local news reporter who is from {city}."""
     headers = {
         "Authorization": f"Bearer {gpt4_api_key}",
         "Content-Type": "application/json"
