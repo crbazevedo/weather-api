@@ -69,11 +69,10 @@ async def read_weather_report(city: str):
         }],
     }
 
-    transport = HideSensitiveTransport(sensitive_params=['gpt4_api_key'])
-    async with httpx.AsyncClient(transport=HideSensitiveTransport()) as client:
+    async with httpx.AsyncClient() as client:
         try:
             resp = await client.request("POST", gpt4_url, headers=headers, json=data, timeout=30.0)
-            resp.raise_for_status()
+            #resp.raise_for_status()
         except httpx.HTTPStatusError as exc:
             logger.error(f"Error fetching OpenAI completion: {exc}")
             raise HTTPException(status_code=exc.response.status_code, detail=exc.response.text)
