@@ -1,8 +1,11 @@
+from security.transport import HideSensitiveTransport
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
 import os
 import httpx
 import logging
+from httpx import AsyncClient
+import urllib.parse
 
 load_dotenv() # load environment variables from .env file
 
@@ -18,10 +21,16 @@ def read_root():
 @app.get("/weather/{city}")
 async def read_weather(city: str):
     api_key = os.getenv("OPENWEATHERMAP_API_KEY")
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
-    async with httpx.AsyncClient() as client:
+    url = "http://api.openweathermap.org/data/2.5/weather"
+    params = {
+        "q": city,
+        "appid": api_key
+    }  
+    transport = HideSensitiveTransport(sensitive_params=['appid'])
+
+    async with httpx.AsyncClient(transport=transport) as client:
         try:
-            resp = await client.get(url)
+            resp = await client.request("GET", url, params=params)
             resp.raise_for_status()
         except httpx.HTTPStatusError as exc:
             logger.error(f"Error fetching weather: {exc}")
@@ -60,9 +69,10 @@ async def read_weather_report(city: str):
         }],
     }
 
-    async with httpx.AsyncClient() as client:
+    transport = HideSensitiveTransport(sensitive_params=['gpt4_api_key'])
+    async with httpx.AsyncClient(transport=HideSensitiveTransport()) as client:
         try:
-            resp = await client.post(gpt4_url, headers=headers, json=data, timeout=30.0)
+            resp = await client.request("POST", gpt4_url, headers=headers, json=data, timeout=30.0)
             resp.raise_for_status()
         except httpx.HTTPStatusError as exc:
             logger.error(f"Error fetching OpenAI completion: {exc}")
