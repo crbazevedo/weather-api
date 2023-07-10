@@ -1,37 +1,5 @@
 # Weather API
 
-This repository contains the code for a FastAPI application that generates weather reports for cities around the world. The application uses data from the OpenWeatherMap API and the OpenAI GPT-4 model to generate the reports.
-
-## Purpose
-
-The purpose of this application is to generate short weather reports for a given city in the style of a local news reporter. The reports are based on real-time weather data from the OpenWeatherMap API. The language of the report is determined by the primary language spoken in the city.
-
-The application uses the OpenAI GPT-4 model to generate the reports. The model is given a prompt that includes the city name and the weather data, and it generates a report that includes inside jokes about the city and sounds like it was written by a local news rporter from the city.
-
-Here's an example of a prompt that the application might give to the GPT-4 model:
-
-`Write a short Weather Report for {city} in the style of a local news reporter based on the following data: {weather_data}. Use the language spoken in that city for the report. Add inside jokes about the city and make it sound like a real weather report. Write in the style of a local news reporter who is from {city}.`
-
-
-In this prompt, `{city}` is replaced with the name of the city and `{weather_data}` is replaced with the weather data from the OpenWeatherMap API.
-
-## App Structure
-
-The application is organized into the following directories:
-
-`app`: This is the main directory that contains the FastAPI application.
-`endpoints`: This directory contains the endpoint modules for the application. Each endpoint has its own module.
-`services`: This directory contains the service modules for the application. Each service (OpenWeatherMap, OpenAI) has its own module.
-`security`: This directory contains the security-related modules, such as the custom transport class for hiding sensitive parameters from the logs.
-
-```css
-
-Here's an updated README.md with the new folder structure and scripts:
-
-markdown
-Copy code
-# Weather API
-
 This repository contains the code for a FastAPI application that generates weather reports and news updates for cities around the world. The application uses data from the OpenWeatherMap API, Microsoft Bing News Search API, and the OpenAI GPT-4 model to generate the reports.
 
 ## Purpose
@@ -49,6 +17,7 @@ The application is organized into the following directories:
 - `services`: This directory contains the service modules for the application. Each service (OpenWeatherMap, OpenAI, Microsoft Bing News Search) has its own module.
 - `security`: This directory contains the security-related modules, such as the custom transport class for hiding sensitive parameters from the logs.
 
+```css
 .
 ├── app
 │ └── main.py
