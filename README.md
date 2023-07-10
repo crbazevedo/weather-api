@@ -2,6 +2,16 @@
 
 This repository contains the code for a FastAPI application that generates weather reports and news updates for cities around the world. The application uses data from the OpenWeatherMap API, Microsoft Bing News Search API, and the OpenAI GPT-4 model to generate the reports.
 
+## Key points:
+
+1. **Modular Design**: Separate modules for each endpoint and service.
+
+2. **Security**: Sensitive parameters are hidden from logs with a custom transport class.
+
+3. **Localization**: Content is tailored to the primary language of each city.
+
+4. **Integration**: Multiple APIs and GPT-4 model are combined in one service.
+
 ## Purpose
 
 The purpose of this application is to generate short weather reports and news updates for a given city in the style of a local news reporter. The reports are based on real-time weather data from the OpenWeatherMap API and news data from the Microsoft Bing News Search API. The language of the report is determined by the primary language spoken in the city.
