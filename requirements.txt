@@ -1,3 +1,5 @@
+babel
+geopy
 fastapi
 uvicorn
 httpx
