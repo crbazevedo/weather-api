@@ -1,3 +1,4 @@
+babel
 geopy
 fastapi
 uvicorn

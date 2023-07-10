@@ -1,7 +1,7 @@
 import os
 import httpx
 from typing import Any
-from utils import city_to_language_code
+from utils import city_to_language
 from fastapi import HTTPException
 from security.transport import HideSensitiveTransport
 
@@ -12,12 +12,15 @@ async def get_news_data(city: str) -> Any:
     params = {
         "q": f"{city}",
         "count": 3,
-        "mkt": city_to_language_code(city),
+        "mkt": city_to_language.get_language_localization(city),
         "safeSearch": "Moderate"
     }
     headers = {
         "Ocp-Apim-Subscription-Key": api_key,
     }
+
+    print(f"Fetching news for {city} in {city_to_language.get_language_localization(city)}")
+
     transport = HideSensitiveTransport(sensitive_params=['Ocp-Apim-Subscription-Key'])
 
     async with httpx.AsyncClient(transport=transport) as client:
