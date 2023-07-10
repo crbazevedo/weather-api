@@ -15,6 +15,29 @@ Here's an example of a prompt that the application might give to the GPT-4 model
 
 In this prompt, `{city}` is replaced with the name of the city and `{weather_data}` is replaced with the weather data from the OpenWeatherMap API.
 
+## App Structure
+
+The application is organized into the following directories:
+
+`app`: This is the main directory that contains the FastAPI application.
+`endpoints`: This directory contains the endpoint modules for the application. Each endpoint has its own module.
+`services`: This directory contains the service modules for the application. Each service (OpenWeatherMap, OpenAI) has its own module.
+`security`: This directory contains the security-related modules, such as the custom transport class for hiding sensitive parameters from the logs.
+
+```css
+.
+├── app
+│   └── main.py
+├── endpoints
+│   ├── weather.py
+│   └── weather_report.py
+├── services
+│   ├── openai.py
+│   └── openweathermap.py
+└── security
+    └── transport.py
+```
+
 ## How to Use
 
 To use this application, you need to have Docker installed on your machine. You can then build and run the Docker image using the following commands:
@@ -23,7 +46,6 @@ To use this application, you need to have Docker installed on your machine. You 
 docker build -t weather-api .
 docker run -p 80:80 weather-api
 ```
-
 
 Once the application is running, you can access it at `http://localhost:80`. The application provides two endpoints:
 
