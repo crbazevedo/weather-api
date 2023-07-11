@@ -19,23 +19,25 @@ async def generate_news_report(city: str, news_data: dict):
 
 async def extract_news_text(news_data: dict):
     news_list = []
-    for news in news_data['value']:
-        if 'video' not in news:
-            page_content = await httpx.get(news['url'])
-            soup = BeautifulSoup(page_content.text, 'html.parser')
-            paragraphs = soup.find_all('p')
-            news_text = ''
-            for paragraph in paragraphs:
-                news_text += paragraph.text + '\n'
-            news_item = {
-                'headline': news['name'],
-                'description': news['description'],
-                'provider': news['provider'][0]['name'],
-                'datePublished': news['datePublished'],
-                'text': news_text
-            }
-            news_list.append(news_item)
+    async with httpx.AsyncClient() as client:
+        for news in news_data['value']:
+            if 'video' not in news:
+                page_content = await client.get(news['url'])
+                soup = BeautifulSoup(page_content.text, 'html.parser')
+                paragraphs = soup.find_all('p')
+                news_text = ''
+                for paragraph in paragraphs:
+                    news_text += paragraph.text + '\n'
+                news_item = {
+                    'headline': news['name'],
+                    'description': news['description'],
+                    'provider': news['provider'][0]['name'],
+                    'datePublished': news['datePublished'],
+                    'text': news_text
+                }
+                news_list.append(news_item)
     return json.dumps(news_list)
+
 
 
 async def generate_report(city: str, data: str, report_type: str):
